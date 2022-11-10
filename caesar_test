@@ -1,0 +1,51 @@
+import string
+import time
+# function is called first when program starts
+def main():
+    # initialize character list (only printable ASCII characters)
+    chars = string.printable
+    # greetings
+    print("Hallo!")
+    # call functions to get cipher
+    clear = get_msg(chars)
+    #time.sleep(10)
+    off1 = get_off()
+    cipher = encode(chars, clear, off1)
+    # prints cipher
+    print(cipher)
+
+# takes the list (chars) as argument and compares to User Input
+# if it matches it returns the input, else it prompts to input again
+# recursion can be avoided with iterative functions!! 
+# (protects from stack overflow by not stacking the same function)
+def get_msg(chars):
+    while True:
+        clear = input("Gib deine Nachricht ein:") # User Input
+        if any(character in clear for character in chars): # if all letters in clear match with any letter in chars (ASCII list)
+            return clear # ends function call and returns input (also breaks out of loop)
+        else:
+            print("Ein ungültiges Zeichen in deiner Nachricht gefunden!") # Error Message
+            time.sleep(2) # waits for 2s for user to read Error
+    
+# reads user Input for offset, if it can be parsed to int it returns, else it prompts again with Error Message
+def get_off():
+    while True:
+        try:
+            off1 = input("Gib das Offset 1 ein: ")
+            return int(off1) # returns input as integer
+        except:
+            print("Ungültige Eingabe für das Offset!")
+
+# takes list, message and offset as arguments and iterates through message, offsets each and adds it to cipher
+def encode(chars, clear, off1):
+    cipher = ""
+    for letter in clear:
+        if letter != " ": # if letter is a space, it won't change, every other letter will 
+            letter = chars[chars.index(letter)+off1] # gets index from list (chars) by looking for the matching letter in the message and adds offset
+
+        cipher = cipher + letter 
+    return cipher
+# main function call
+main()
+
+
