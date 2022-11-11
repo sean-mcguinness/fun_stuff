@@ -8,7 +8,6 @@ def main():
     print("Hallo!")
     # call functions to get cipher
     clear = get_msg(chars)
-    #time.sleep(10)
     off1 = get_off()
     cipher = encode(chars, clear, off1)
     # prints cipher
@@ -41,10 +40,15 @@ def encode(chars, clear, off1):
     cipher = ""
     for letter in clear:
         if letter != " ": # if letter is a space, it won't change, every other letter will 
-            letter = chars[chars.index(letter)+off1] # gets index from list (chars) by looking for the matching letter in the message and adds offset
+            # use comment right below if you have a custom list of available characters
+            # letter = chars[chars.index(letter)+off1] # gets index from list (chars) by looking for the matching letter in the message and adds offset
+            
+            letter = chr(ord(letter)+off1) # gets ordinal value of letter and adds offset, then turns new value into character
 
         cipher = cipher + letter 
+
     return cipher
+
 # main function call
 main()
 
