@@ -1,22 +1,29 @@
+# import necessary libraries, 1st is to get the ASCII characters
+# second to use time.sleep for displaying Error Message and continuing program after
 import string
 import time
 # function is called first when program starts
 def main():
     # initialize character list (only printable ASCII characters)
     chars = string.printable
+    print(chars)
     # greetings
     print("Hallo!")
     # call functions to get cipher
     clear = get_msg(chars)
     off1 = get_off()
-    cipher = encode(chars, clear, off1)
+    cipher = encode(clear, off1)
     # prints cipher
     print(cipher)
+
+    # function for testing purposes
+    #testing()
+
 
 # takes the list (chars) as argument and compares to User Input
 # if it matches it returns the input, else it prompts to input again
 # recursion can be avoided with iterative functions!! 
-# (protects from stack overflow by not stacking the same function)
+# (protects from stack overflow by not adding it to the stack over and over again (filling the stack + not clearing memory = overflow)) i think...
 def get_msg(chars):
     while True:
         clear = input("Gib deine Nachricht ein:") # User Input
@@ -30,24 +37,30 @@ def get_msg(chars):
 def get_off():
     while True:
         try:
-            off1 = input("Gib das Offset 1 ein: ")
-            return int(off1) # returns input as integer
+            off = input("Gib das Offset 1 ein: ")
+            return int(off) # returns input as integer
         except:
             print("Ungültige Eingabe für das Offset!")
 
 # takes list, message and offset as arguments and iterates through message, offsets each and adds it to cipher
-def encode(chars, clear, off1):
+def encode(clear, off):
     cipher = ""
     for letter in clear:
         if letter != " ": # if letter is a space, it won't change, every other letter will 
-            # use comment right below if you have a custom list of available characters
+            # use comment right below if you have a custom list of available characters, also add chars as parameter for this function
             # letter = chars[chars.index(letter)+off1] # gets index from list (chars) by looking for the matching letter in the message and adds offset
             
-            letter = chr(ord(letter)+off1) # gets ordinal value of letter and adds offset, then turns new value into character
+            letter = chr(ord(letter)+off) # gets ordinal value of letter and adds offset, then turns new value into character
 
         cipher = cipher + letter 
 
     return cipher
+
+def testing():
+    test_input = "abc"
+    test_off = 2
+    test_result = encode("abc", 2)
+    print(f"Test_1: Input: {test_input}, Offset: {test_off}, Result: {test_result}, Expected: cde")
 
 # main function call
 main()
